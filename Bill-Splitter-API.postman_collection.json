@@ -1,0 +1,327 @@
+{
+  "info": {
+    "name": "Bill Splitter API",
+    "description": "Complete API collection for Bill Splitter backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"John Smith\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bills",
+      "item": [
+        {
+          "name": "Create Bill (Equal Split)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"billName\": \"Team Dinner\",\n  \"totalAmount\": 150.00,\n  \"currency\": \"USD\",\n  \"participants\": [\n    { \"name\": \"Alice\", \"email\": \"alice@example.com\" },\n    { \"name\": \"Bob\", \"email\": \"bob@example.com\" },\n    { \"name\": \"Charlie\", \"email\": \"charlie@example.com\" }\n  ],\n  \"splitMethod\": \"equal\",\n  \"notes\": \"Pizza and drinks\",\n  \"createdByName\": \"Alice\",\n  \"createdByEmail\": \"alice@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bills",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills"]
+            }
+          }
+        },
+        {
+          "name": "Create Bill (Percentage Split)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"billName\": \"Project Expenses\",\n  \"totalAmount\": 1000.00,\n  \"currency\": \"USD\",\n  \"participants\": [\n    { \"name\": \"Alice\", \"email\": \"alice@example.com\" },\n    { \"name\": \"Bob\", \"email\": \"bob@example.com\" },\n    { \"name\": \"Charlie\", \"email\": \"charlie@example.com\" }\n  ],\n  \"splitMethod\": \"percentage\",\n  \"customSplits\": [\n    { \"participantEmail\": \"alice@example.com\", \"percentage\": 40 },\n    { \"participantEmail\": \"bob@example.com\", \"percentage\": 35 },\n    { \"participantEmail\": \"charlie@example.com\", \"percentage\": 25 }\n  ],\n  \"notes\": \"Based on contribution\",\n  \"createdByName\": \"Alice\",\n  \"createdByEmail\": \"alice@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bills",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills"]
+            }
+          }
+        },
+        {
+          "name": "Create Bill (Item-Based Split)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"billName\": \"Restaurant Bill\",\n  \"totalAmount\": 100.00,\n  \"currency\": \"USD\",\n  \"participants\": [\n    { \"name\": \"Alice\", \"email\": \"alice@example.com\" },\n    { \"name\": \"Bob\", \"email\": \"bob@example.com\" },\n    { \"name\": \"Charlie\", \"email\": \"charlie@example.com\" }\n  ],\n  \"splitMethod\": \"itemBased\",\n  \"items\": [\n    {\n      \"description\": \"Pizza\",\n      \"amount\": 30,\n      \"paidBy\": \"alice@example.com\",\n      \"splitBetween\": [\"alice@example.com\", \"bob@example.com\"]\n    },\n    {\n      \"description\": \"Pasta\",\n      \"amount\": 25,\n      \"paidBy\": \"bob@example.com\",\n      \"splitBetween\": [\"bob@example.com\", \"charlie@example.com\"]\n    },\n    {\n      \"description\": \"Drinks\",\n      \"amount\": 45,\n      \"paidBy\": \"charlie@example.com\",\n      \"splitBetween\": [\"alice@example.com\", \"bob@example.com\", \"charlie@example.com\"]\n    }\n  ],\n  \"notes\": \"Itemized dinner\",\n  \"createdByName\": \"Alice\",\n  \"createdByEmail\": \"alice@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bills",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills"]
+            }
+          }
+        },
+        {
+          "name": "Get Bill by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/:billId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", ":billId"],
+              "variable": [
+                {
+                  "key": "billId",
+                  "value": "your-bill-id-here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User Bills",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bills?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Bill",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"billName\": \"Updated Team Dinner\",\n  \"totalAmount\": 175.00,\n  \"notes\": \"Updated total amount\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/:billId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", ":billId"],
+              "variable": [
+                {
+                  "key": "billId",
+                  "value": "your-bill-id-here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark Payment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participantEmail\": \"alice@example.com\",\n  \"isPaid\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/:billId/payment",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", ":billId", "payment"],
+              "variable": [
+                {
+                  "key": "billId",
+                  "value": "your-bill-id-here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Bill Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Delete Bill",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/:billId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", ":billId"],
+              "variable": [
+                {
+                  "key": "billId",
+                  "value": "your-bill-id-here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
