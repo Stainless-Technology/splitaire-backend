@@ -16,7 +16,7 @@ interface Config {
     from: string;
   };
   frontendUrl: string;
-  corsOrigin: string;
+  corsOrigin: string[]; // 👈 Change type to array
 }
 
 const config: Config = {
@@ -33,7 +33,9 @@ const config: Config = {
     from: process.env.EMAIL_FROM || 'noreply@billsplitter.com',
   },
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  corsOrigin: process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
+    : ['http://localhost:3000'],
 };
 
 export default config;
